@@ -1,0 +1,385 @@
+.services-section {
+    position: relative;
+    padding: clamp(3rem, 5vw, 6rem) clamp(1rem, 3vw, 2rem);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease-out;
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+  }
+  
+  .services-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Enhanced Background with Mirror Effects */
+  .services-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .services-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 100%
+    );
+    backdrop-filter: blur(20px);
+  }
+  
+  .mirror-floor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02)
+    );
+    transform: perspective(1000px) rotateX(180deg);
+    transform-origin: bottom;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  
+  .mirror-floor::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to top,
+      rgba(136, 68, 34, 0.1),
+      transparent
+    );
+    filter: blur(20px);
+  }
+  
+  .reflection-lines {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 2px
+    );
+    transform: perspective(1000px) rotateX(60deg);
+    transform-origin: bottom;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  
+  .shimmer-overlay {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+    animation: shimmerMove 8s linear infinite;
+  }
+  
+  /* Content Styles */
+  .section-container {
+    max-width: min(1200px, 90vw);
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: clamp(2rem, 4vw, 4rem);
+    color: white;
+    font-weight: 700;
+  }
+  
+  .highlight {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Services Grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: clamp(0.5rem, 1vw, 1rem);
+    width: 100%;
+  }
+  
+  /* Card Styles */
+  .service-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: clamp(15px, 2vw, 20px);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: var(--delay);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .card-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Card Mirror Effect */
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+  
+  .service-card:hover::before {
+    left: 100%;
+  }
+  
+  .card-reflection {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05),
+      transparent 50%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px) translateZ(20px);
+    box-shadow: 
+      0 10px 30px rgba(136, 68, 34, 0.2),
+      0 0 20px rgba(136, 68, 34, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(136, 68, 34, 0.3);
+  }
+  
+  .service-card:hover .card-reflection {
+    opacity: 1;
+  }
+  
+  /* Card Content Styles */
+  .service-icon {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: clamp(0.8rem, 2vw, 1rem);
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px var(--primary-glow));
+  }
+  
+  .card-title {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    margin-bottom: clamp(0.8rem, 2vw, 1rem);
+    background: linear-gradient(45deg, #fff, #ccc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .card-text {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    margin-top: auto;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes shimmerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(200%); }
+  }
+  
+  /* Media Queries */
+  @media (min-width: 1440px) {
+    .services-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .service-card {
+      min-height: 350px;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .mirror-floor {
+      height: 40%;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .service-card {
+      min-height: 300px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+  
+    .service-card {
+      min-height: 250px;
+      padding: 1.5rem;
+    }
+  
+    .card-title {
+      font-size: 1.3rem;
+    }
+  
+    .card-text {
+      font-size: 0.95rem;
+    }
+  
+    .mirror-floor {
+      height: 30%;
+      opacity: 0.2;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .service-card {
+      min-height: auto;
+      padding: 1.25rem;
+    }
+  
+    .service-icon {
+      font-size: 1.8rem;
+    }
+  
+    .card-title {
+      font-size: 1.2rem;
+    }
+  
+    .card-text {
+      font-size: 0.9rem;
+    }
+  
+    .mirror-floor {
+      height: 20%;
+      opacity: 0.15;
+    }
+  }
+  
+  /* Touch Device Optimization */
+  @media (hover: none) {
+    .service-card {
+      transform: none !important;
+    }
+  
+    .service-card:active {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(136, 68, 34, 0.3);
+    }
+  
+    .mirror-floor,
+    .reflection-lines {
+      opacity: 0.15;
+    }
+  }
+  
+  /* High Resolution Displays */
+  @media (min-resolution: 192dpi) {
+    .service-card {
+      backdrop-filter: blur(15px);
+    }
+  }
+  
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .services-section,
+    .service-card,
+    .card-reflection,
+    .shimmer-overlay {
+      transition: none;
+      animation: none;
+    }
+  
+    .service-card {
+      opacity: 1;
+      transform: none;
+    }
+  }
